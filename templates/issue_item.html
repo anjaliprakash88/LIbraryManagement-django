@@ -1,7 +1,7 @@
-{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,7 +39,7 @@
 
         .hero-section {
             background: linear-gradient(to right, #3f5efb, #fc466b);
-            height: 90vh;
+            height: 250vh;
             display: grid;
             color: white;
             
@@ -100,14 +100,14 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if not user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="login">Login</a>
+                        <a class="nav-link" href="/">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="register">Register</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="home">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="issue">Issue</a>
@@ -149,37 +149,66 @@
 
 
                 </center>
-                <br />
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th class="" scope="col">Book Name</th>
-                            <th class="" scope="col">Author Name</th>
-                            <th class="" scope="col">Subject</th>
-                            <th class="" scope="col">Issue</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table_data">
-                        {% for book in books %}
-                        <tr>
-                            <td>{{book.book_name}}</td>
-                            <td>{{book.author_name}}</td>
-                            <td>{{book.subject}}</td>
-                            <td>
-                                <center>
-                                    <form action="issue" method="post">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="book_id" value="{{book.id}}" />
-                                        <button type="submit" class="btn btn-outline-success btn-sm">
-                                            <b>Issue</b>
-                                        </button>
-                                    </form>
-                                </center>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+
+    <form method="GET" action="{% url 'issue' %}">
+        {% csrf_token %}
+        <input type="text" name="query" placeholder="Search books">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Book Name</th>
+                <th scope="col">Author Name</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Issue</th>
+            </tr>
+        </thead>
+        <tbody id="table_data">
+            {% if data %}
+                {% for book in data %}
+                <tr>
+                    <td>{{ book.book_name }}</td>
+                    <td>{{ book.author_name }}</td>
+                    <td>{{ book.subject }}</td>
+                    <td>
+                        <center>
+                            <form action="{% url 'issue' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="book_id" value="{{ book.id }}" />
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                    <b>Issue</b>
+                                </button>
+                            </form>
+                        </center>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% elif books %}
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.book_name }}</td>
+                    <td>{{ book.author_name }}</td>
+                    <td>{{ book.subject }}</td>
+                    <td>
+                        <center>
+                            <form action="{% url 'issue' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="book_id" value="{{ book.id }}" />
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                    <b>Issue</b>
+                                </button>
+                            </form>
+                        </center>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
             </div>
         </section>
     </main>

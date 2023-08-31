@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
-from django.utils import timezone
+# from django.utils import timezone
+
+
+
 
 class Book(models.Model):
     book_name = models.CharField(max_length=150)
@@ -33,4 +36,15 @@ class IssuedItem(models.Model):
         return self.user_id.username
     
     def __str__(self):
-        return self.book_id.book_name + ' issued by ' + self.user_id.first_name + ' on ' + str(self.issue_date)    
+        return self.book_id.book_name + ' issued by ' + self.user_id.first_name + ' on ' + str(self.issue_date) 
+
+
+
+
+class Author(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+   
+
+    # def __str__(self):
+    #     return f"{self.name} - {self.book.book_name}"
+    
