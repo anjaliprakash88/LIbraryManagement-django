@@ -14,6 +14,13 @@ SECRET_KEY = 'django-insecure-0x%r4xae6xff_^k4z&#=87mq8kw4sl!$+6-1xt%vgs376a)q8^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'datasciencepkd@gmail.com'
+# EMAIL_HOST_PASSWORD = 'soft_pkd'
+# EMAIL_PORT = '587'
+# EMAIL_USE_TLS = True
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 ALLOWED_HOSTS = []
 
 
@@ -109,6 +116,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
+MEDIA_URL='/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

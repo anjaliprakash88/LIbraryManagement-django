@@ -48,3 +48,11 @@ class Author(models.Model):
     # def __str__(self):
     #     return f"{self.name} - {self.book.book_name}"
     
+
+class Login(models.Model):
+    username=models.CharField(max_length=250)
+    password= models.CharField(max_length=10)
+    type = models.IntegerField()
+
+    def __str__(self):
+        return self.username

@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import auth, User
 from django.contrib.auth.decorators import login_required
-from .models import Book, IssuedItem, Author
+from .models import Book, IssuedItem, Author, Login
 from django.db.models import Q
 from datetime import date
 from django.core.paginator import Paginator
@@ -145,6 +145,21 @@ def history(request):
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+
+
+def libhome(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if username is not None and password is not None:
+            d = Login.objects.get(username=username, password=password, type=1)
+            if d.type == 1:
+                request.session['username'] = d.username
+                return render(request, 'librarian.html')
+            elif d.type != 1:
+                messages.success(request, 'invalid')
+    return render(request, 'libhome.html')
 
 
 

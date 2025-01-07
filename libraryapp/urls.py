@@ -13,6 +13,8 @@ urlpatterns = [
     path('return_item',views.return_item,name='return_item'),
     path('history',views.history,name='history'),
 
+
+    path('libhome', views.libhome, name="libhome"),
     re_path('librarian',views.librarian,name='librarian'),
     path('add-book/', views.addbookview),
     path('add-book/add', views.addbook),
